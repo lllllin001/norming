@@ -1,0 +1,152 @@
+var main_trials = [
+	{
+		"attribute": 'an androgynous build'
+	},
+	{
+		"attribute": 'an athletic build'
+	},
+	{
+		"attribute": 'a curvy build'
+	},
+	{
+		"attribute": 'a graceful build'
+	},
+	{
+		"attribute": 'a petite build'
+	},
+	{
+		"attribute": 'a willowy build'
+	},
+	{
+		"attribute": 'high cheekbones'
+	},
+	{
+		"attribute": 'dimpled cheeks'
+	},
+	{
+		"attribute": 'a delicate chin'
+	},
+	{
+		"attribute": 'a pointed chin'
+	},
+	{
+		"attribute": 'a clear complexion'
+	},
+	{
+		"attribute": 'a flawless complexion'
+	},
+	{
+		"attribute": 'a freckled complexion'
+	},
+	{
+		"attribute": 'arched eyebrows'
+	},
+	{
+		"attribute": 'defined eyebrows'
+	},
+	{
+		"attribute": 'almond-shaped eyes'
+	},
+	{
+		"attribute": 'big eyes'
+	},
+	{
+		"attribute": 'chocolate-brown eyes'
+	},
+	{
+		"attribute": 'emerald eyes'
+	},
+	{
+		"attribute": 'intense eyes'
+	},
+	{
+		"attribute": 'piercing eyes'
+	},
+	{
+		"attribute": 'a sharp face'
+	},
+	{
+		"attribute": 'an hourglass figure'
+	},
+	{
+		"attribute": 'an angular jawline'
+	},
+	{
+		"attribute": 'a chiseled jawline'
+	},
+	{
+		"attribute": 'a rugged jawline'
+	},
+	{
+		"attribute": 'balanced lips'
+	},
+	{
+		"attribute": 'bow-shaped lips'
+	},
+	{
+		"attribute": 'full lips'
+	},
+	{
+		"attribute": 'plump lips'
+	},
+	{
+		"attribute": 'a kissable mouth'
+	},
+	{
+		"attribute": 'a sensual mouth'
+	},
+	{
+		"attribute": 'a muscular neck'
+	},
+	{
+		"attribute": 'a button nose'
+	},
+	{
+		"attribute": 'a prominent nose'
+	},
+	{
+		"attribute": 'a confident posture'
+	},
+	{
+		"attribute": 'an elegant posture'
+	},
+	{
+		"attribute": 'broad shoulders'
+	},
+	{
+		"attribute": 'ivory skin'
+	},
+	{
+		"attribute": 'olive skin'
+	},
+	{
+		"attribute": 'a bushy beard'
+	},
+	{
+		"attribute": 'a balding crown'
+	},
+	{
+		"attribute": 'curled eyelashes'
+	},
+	{
+		"attribute": 'flowing hair'
+	},
+	{
+		"attribute": 'narrow hips'
+	},
+	{
+		"attribute": 'neutral-toned makeup'
+	},
+	{
+		"attribute": 'painted nails'
+	},
+	{
+		"attribute": 'a shiny scalp'
+	},
+	{
+		"attribute": 'a pierced septum'
+	},
+	{
+		"attribute": 'a shaved sidecut'
+	}
+  ];

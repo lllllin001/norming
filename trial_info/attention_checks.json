@@ -1,0 +1,26 @@
+var attention_checks = [
+	{
+		"person_term": "nonbinary person",
+		"attribute": "an androgynous build"
+	},
+	{
+		"person_term": "man",
+		"attribute": "a muscular neck"
+	},
+	{
+		"person_term": "woman",
+		"attribute": "an hourglass figure"
+	},
+	{
+		"person_term": "man",
+		"attribute": "a balding crown"
+	},
+	{
+		"person_term": "woman",
+		"attribute": "curled eyelashes"
+	},
+	{
+		"person_term": "man",
+		"attribute": "a bushy beard"
+	}
+]

@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>browser-based experiments</title>
+
+        <!-- fonts from Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Noto+Serif:400,700|Playfair+Display:700" rel="stylesheet">
+
+        <!-- css -->
+        <link rel="stylesheet" type="text/css" href="styles/styles.css">
+
+        <!-- js dependencies -->
+        <script src="libraries/mustache/mustache.min.js"></script>
+        <script src="libraries/jquery/dist/jquery.min.js"></script>
+        <!-- This doesn't seem to be there on cloudflare -->
+        <script src="libraries/csv-js/csv.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
+
+        <!-- config -->
+        <script src="config/config_deploy.js"></script>
+
+        <!-- local js files -->
+        <script src="scripts/main.js"></script>
+        <script src="scripts/experiment.js"></script>
+        <script src="scripts/helpers.js"></script>
+        <script src="scripts/utils.js"></script>
+        <script src="scripts/submit_to_server.js"></script>
+
+        <!-- local trial_info files -->
+        <!-- <script src="trial_info/main_trials.js"></script> -->
+        <script src="trial_info/exp_sample.json"></script>
+        <script src="trial_info/attention_checks.json"></script>
+        <script src="trial_info/image_trials.js"></script>
+
+        <!-- views -->
+        <script src="views/views.js"></script>
+    </head>
+
+    <body>
+        <noscript>This task requires JavaScript. Please enable JavaScript in your browser and reload the page. For more information on how to do that, please refer to
+            <a href='https://enable-javascript.com' target='_blank'>enable-javascript.com</a>
+        </noscript>
+
+        <!-- views are inserted in main -->
+        <main id='main'>
+            Loading...
+        </main>
+
+
+        <!-- Introduction view -->
+        <script id="intro-view" type="text/html">
+            <div class='view'>
+                <div class="picture">
+                    <img src={{ picture }} alt="a picture" height="100">
+                </div>
+                <br>
+                <br>
+                {{# text }}
+                <section class="text-container">
+                    <p class="text">{{{ text }}}</p>
+                </section>
+                {{/ text }}
+                <br>
+                <p id="prolific-id-form">
+                    <label for="prolific-id">Please, enter your Prolific ID</label>
+                    <input type="text" id="prolific-id" />
+                </p>
+                {{# button }}
+                <button id="next" class="nodisplay">{{ button }}</button>
+                {{/ button }}
+                {{^ button }}
+                <button id="next">Next</button>
+                {{/ button }}
+                <br>
+                {{# legal_info }}
+                <section class="text-container">
+                    <hr>
+                    <br>
+                    <p class="legal-text">{{{ legal_info }}}</p>
+                </section>
+                {{/ legal_info }}
+            </div>
+        </script>
+
+        <!-- Instruction view -->
+        <script id="instructions-view" type="text/html">
+            <div class="view">
+                <h1> Instructions </h1>
+                <br>
+                <section class="text-container">
+                    <p class="text">
+                        In this study, you will see <strong>10 images of different people</strong>. Each image will be shown one at a time, followed by several questions about what you see.<br><br>Please pay close attention to the questions and answer each question carefully. At the end of the study, you will have the opportunity to provide feedback or ask any questions. <br><br> When you are ready to begin, please click the button below to continue.
+                    </p>
+                </section>
+                <br>
+                <button id="next">Continue</button>
+            </div>
+        </script>
+
+        <!-- Stage 1 view: Typicality ratings -->
+        <script id="stage1-view" type="text/html">
+        <div class="view">
+            <!-- Image at the top -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="{{ image }}" alt="Person" style="max-width: 350px; max-height: 350px; border: 1px solid #ccc;">
+            </div>
+
+            <!-- TODO: randomize questions -->
+
+            <!-- Question 1: Man typicality -->
+            <div class="question-box" style="margin-bottom: 10px;">
+                <p class="question">{{{ q1 }}}</p>
+                <ul class="answer-container likert">
+                    <li class="labels1">{{ q1_slider_left }}</li>
+                    <li><input type="radio" name="slider_q1" value="1" /></li>
+                    <li><input type="radio" name="slider_q1" value="2" /></li>
+                    <li><input type="radio" name="slider_q1" value="3" /></li>
+                    <li><input type="radio" name="slider_q1" value="4" /></li>
+                    <li><input type="radio" name="slider_q1" value="5" /></li>
+                    <li><input type="radio" name="slider_q1" value="6" /></li>
+                    <li><input type="radio" name="slider_q1" value="7" /></li>
+                    <li class="labels1">{{ q1_slider_right }}</li>
+                </ul>
+            </div>
+
+            <!-- Question 2: Woman typicality -->
+            <div class="question-box" style="margin-bottom: 10px;">
+                <p class="question">{{{ q2 }}}</p>
+                <ul class="answer-container likert">
+                    <li class="labels1">{{ q1_slider_left }}</li>
+                    <li><input type="radio" name="slider_q2" value="1" /></li>
+                    <li><input type="radio" name="slider_q2" value="2" /></li>
+                    <li><input type="radio" name="slider_q2" value="3" /></li>
+                    <li><input type="radio" name="slider_q2" value="4" /></li>
+                    <li><input type="radio" name="slider_q2" value="5" /></li>
+                    <li><input type="radio" name="slider_q2" value="6" /></li>
+                    <li><input type="radio" name="slider_q2" value="7" /></li>
+                    <li class="labels1">{{ q1_slider_right }}</li>
+                </ul>
+            </div>
+
+            <!-- Question 3: Nonbinary person typicality -->
+            <div class="question-box" style="margin-bottom: 10px;">
+                <p class="question">{{{ q3 }}}</p>
+                <ul class="answer-container likert">
+                    <li class="labels1">{{ q1_slider_left }}</li>
+                    <li><input type="radio" name="slider_q3" value="1" /></li>
+                    <li><input type="radio" name="slider_q3" value="2" /></li>
+                    <li><input type="radio" name="slider_q3" value="3" /></li>
+                    <li><input type="radio" name="slider_q3" value="4" /></li>
+                    <li><input type="radio" name="slider_q3" value="5" /></li>
+                    <li><input type="radio" name="slider_q3" value="6" /></li>
+                    <li><input type="radio" name="slider_q3" value="7" /></li>
+                    <li class="labels1">{{ q1_slider_right }}</li>
+                </ul>
+            </div>
+
+            <button id="next">Continue</button>
+
+            <p id="error" class="help-text" style="display: none;">Please answer all three questions above before continuing.</p>
+
+        </div>
+        </script>
+
+        <!-- Stage 2 view: Feature listing -->
+        <script id="stage2-view" type="text/html">
+        <div class="view">
+            <!-- Image at the top -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="{{ image }}" alt="Person" style="max-width: 350px; max-height: 350px; border: 1px solid #ccc;">
+            </div>
+
+            <!-- Question 1: Typical features -->
+            <div class="question-box" style="margin-bottom: 20px;">
+                <p class="question">Please list three features of the person’s appearance that led you to associate them with {{ article }} <strong>{{ category }}</strong>.</p>
+                <div style="margin-top: 15px;">
+                    <label style="display: block; margin-bottom: 10px;">1. <input type="text" id="typical1" style="width: 80%; margin-left: 10px;" /></label>
+                    <label style="display: block; margin-bottom: 10px;">2. <input type="text" id="typical2" style="width: 80%; margin-left: 10px;" /></label>
+                    <label style="display: block; margin-bottom: 10px;">3. <input type="text" id="typical3" style="width: 80%; margin-left: 10px;" /></label>
+                </div>
+            </div>
+
+            <!-- Question 2: Atypical features (optional) -->
+            <div class="question-box" style="margin-bottom: 20px;">
+                <p class="question">If there are any, name at least one feature of the person’s appearance that seemed <strong>unusual or atypical</strong> for someone you would associate with {{ article }} <strong>{{ category }}</strong>. (Optional)</p>
+                <div style="margin-top: 15px;">
+                    <label style="display: block; margin-bottom: 10px;">1. <input type="text" id="atypical1" style="width: 80%; margin-left: 10px;" /></label>
+                    <label style="display: block; margin-bottom: 10px;">2. <input type="text" id="atypical2" style="width: 80%; margin-left: 10px;" /></label>
+                    <label style="display: block; margin-bottom: 10px;">3. <input type="text" id="atypical3" style="width: 80%; margin-left: 10px;" /></label>
+                </div>
+            </div>
+
+            <button id="next">Continue</button>
+
+            <p id="error" class="help-text" style="display: none;">Please list all three typical features before continuing.</p>
+
+        </div>
+        </script>
+
+        <!-- AI classification view -->
+        <script id="aiclassification-view" type="text/html">
+            <div class="view">
+                <!-- <h1> Some title </h1>
+                <br> -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="{{ image }}" alt="Person" style="max-width: 350px; max-height: 350px; border: 1px solid #ccc;">
+                </div>
+                <section class="text-container">
+                    <p class="text">Which of the following statements do you think is true for the above image? (If you can't decide, select "Not sure.")</p>
+                    <form id="quiz-form" style="text-align: left;">
+                        <label style="display: block; margin: 10px 0; font-family: 'Lato', 'Noto Sans', sans-serif; font-size: 17px; line-height: 27px; color: rgba(0, 0, 0, 0.87);">
+                        <input type="radio" name="answer" id="answer" value= "A">
+                        {{ optionA_text }}
+                        </label>
+
+                        <label style="display: block; margin: 10px 0; font-family: 'Lato', 'Noto Sans', sans-serif; font-size: 17px; line-height: 27px; color: rgba(0, 0, 0, 0.87);">
+                        <input type="radio" name="answer" id="answer" value="B">
+                        {{ optionB_text }}
+                        </label>
+
+                        <label style="display: block; margin: 10px 0; font-family: 'Lato', 'Noto Sans', sans-serif; font-size: 17px; line-height: 27px; color: rgba(0, 0, 0, 0.87);">
+                        <input type="radio" name="answer" id="answer" value="C">
+                        {{ optionC_text }}
+                        </label>
+                    </form>
+                </section>
+                <br>
+                <button id="next">Continue</button>
+
+                <p id="error" class="help-text" style="display: none;">Please select one of the three statements before continuing.</p>
+            </div>
+        </script>
+
+        <!-- post test view -->
+        <script id="post-test-view" type="text/html">
+        <div class="view post-test-templ">
+            {{# title }}
+            <h1>{{ title }}</h1>
+            {{/ title }}
+            {{# text }}
+            <section class="text-container">
+                <p class="text">{{ text }}</p>
+            </section>
+            {{/ text }}
+            <form>
+            <p>
+                <label for="HitCorrect">Did you read the instructions and do you think you did the study correctly?</label>
+                <select id="HitCorrect" name="HitCorrect">
+                    <option></option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                    <option value="404">I was confused</option>
+                </select>
+            </p>
+            <p>
+                <label for="age">Age:</label>
+                <input type="number" name="age" min="18" max="110" id="age" />
+            </p>
+            <p>
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" onchange="toggleTextbox()">
+                    <option></option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </p>
+            
+            <!-- Initially hidden textbox for "Other" selection -->
+            <p id="other-gender-container" style="display: none;">
+                <label for="other-gender">Please specify:</label>
+                <input type="text" id="other-gender" name="other-gender" placeholder="Enter your gender">
+            
+            <!-- <p>
+                <label for="education">Level of Education:</label>
+                <select id="education" name="education">
+                    <option></option>
+                    <option value="some_high_school">Some High School</option>
+                    <option value="graduated_high_school">Graduated High School</option>
+                    <option value="some_college">Some College</option>
+                    <option value="graduated_college">Graduated College</option>
+                    <option value="higher_degree">Hold a Higher Degree</option>
+                </select>
+            </p> -->
+            <p>
+                <label for="languages" name="languages">Native Languages: <br /><span>(i.e. the language(s) spoken at home when you were a child)</</span></label>
+                <input type="text" id="languages"/>
+            </p>
+            <p>
+                <label for="enjoyment">Enjoyment:</label>
+                <select id="enjoyment" name="enjoyment">
+                    <option></option>
+                    <option value="0">Worse than the Average Study</option>
+                    <option value="1">Average Study</option>
+                    <option value="2">Better than the Average Study</option>
+                </select>
+            </p>
+            <!-- removed the below because we added a third question-->
+            <!-- <p class="difficulties-sect">
+                <label for="difficulties">Did you find any of the images out of place in their articles? (If so, which one(s) and why?)</label>
+                <textarea name="difficulties" id="difficulties" rows="6" cols="40"></textarea>
+            </p> -->
+            <p class="comment-sect">
+                <label for="comments">Further Comments:</label>
+                <textarea name="comments" id="comments"
+                rows="6" cols="40"></textarea>
+            </p>
+            {{# buttonText }}
+            <button id="next">{{ buttonText }}</button>
+            {{/ buttonText }}
+            {{^ buttonText }}
+            <button id="next">Next</button>
+            {{/ buttonText }}
+            </form>
+            </div>
+        </script>
+
+        <!-- Thanks View -->
+        <script id="thanks-view" type="x-tmpl-mustache">
+        <div class="view thanks-templ">
+            <h4 class="warning-message">submitting the data
+                <div class="loader"></div>
+            </h4>
+            {{# thanksMessage }}
+            <h1 class="thanks-message nodisplay">{{ thanksMessage }}</h1>
+            {{/ thanksMessage }}
+            {{^ thanksMessage }}
+            <h1 class="thanks-message nodisplay">Thank you for taking part in this experiment!</h1>
+            {{/ thanksMessage }}
+            {{# extraMessage }}
+            <h2 class="extra-message nodisplay">{{{ extraMessage }}}</h2>
+            {{/ extraMessage }}
+        </div>
+        </script>
+    </body>
+</html>
