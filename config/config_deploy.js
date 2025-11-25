@@ -25,5 +25,5 @@ var config_deploy = {
 
     // set the prolific completion URL if the deploy method is "Prolific"
     // the URL should look something like this - https://app.prolific.ac/submissions/complete?cc=ABCD1234
-    "prolificURL": "https://app.prolific.co/submissions/complete?cc=C6F01LDX"
+    "prolificURL": "https://app.prolific.com/submissions/complete?cc=C1KNH7KI"
 };
